@@ -1,0 +1,45 @@
+/* Custom Styles */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.table-warning {
+    background-color: #fff3cd !important;
+}
+
+.table-danger {
+    background-color: #f8d7da !important;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+/* Celular: tabela compacta, sem coluna Situação (a cor da linha já indica) */
+@media (max-width: 575.98px) {
+    .table-responsive .table {
+        font-size: 0.85rem;
+    }
+    .table-responsive .table th,
+    .table-responsive .table td {
+        padding: 0.4rem 0.3rem;
+    }
+    .table-responsive .table th:nth-child(4),
+    #foodList td:nth-child(4) {
+        display: none;
+    }
+    #foodList td:last-child {
+        white-space: nowrap;
+    }
+}
+
+/* Modal Styling */
+#recipesList .card {
+    transition: transform 0.2s;
+}
+
+#recipesList .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}
+

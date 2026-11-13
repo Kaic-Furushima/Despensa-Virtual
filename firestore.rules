@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Cada usuário só acessa os próprios alimentos.
+    match /alimentos/{id} {
+      allow read, delete: if request.auth != null
+                          && resource.data.userId == request.auth.uid;
+
+      allow create: if request.auth != null
+                    && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.keys().hasOnly(['userId', 'nome', 'quantidade', 'validade'])
+                    && request.resource.data.nome is string
+                    && request.resource.data.nome.size() > 0
+                    && request.resource.data.nome.size() <= 100
+                    && request.resource.data.quantidade is int
+                    && request.resource.data.quantidade >= 1
+                    && request.resource.data.validade is string
+                    && request.resource.data.validade.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+
+      allow update: if request.auth != null
+                    && resource.data.userId == request.auth.uid
+                    && request.resource.data.userId == resource.data.userId
+                    && request.resource.data.keys().hasOnly(['userId', 'nome', 'quantidade', 'validade'])
+                    && request.resource.data.nome is string
+                    && request.resource.data.nome.size() > 0
+                    && request.resource.data.nome.size() <= 100
+                    && request.resource.data.quantidade is int
+                    && request.resource.data.quantidade >= 1
+                    && request.resource.data.validade.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$');
+    }
+  }
+}
